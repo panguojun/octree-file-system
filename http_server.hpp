@@ -13,7 +13,7 @@ void onrequest(const std::string& msg, const std::string& body, std::string& out
         std::string drawCmd;
         drawCmd = body;
 
-        VFileSystem::VirtualFileSystem vfs;
+        VFS::VirtualFileSystem vfs;
 
         // 读取文件内容
         string content = vfs.readFile(drawCmd);

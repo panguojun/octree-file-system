@@ -38,7 +38,6 @@ using namespace std;
 #include    "vec_math.hpp"
 #include    "geom_math.hpp"
 #include    "geom_math2d.hpp"
-#include    "scene/scene.hpp"
 #include    "STR.hpp"
 
 #undef      real
@@ -46,8 +45,8 @@ using namespace std;
 #include    "sqlite3/sqlite3.h"
 #include    "filesystembas.hpp"
 #include    "DiskFileSystem.hpp"
-#include    "OCTFileSystem.hpp"
-#include    "VFileSystem.hpp"
+#include    "OCTVFS.hpp"
+#include    "VFS.hpp"
 #include    "GDB.hpp"
 #include    "http_server.hpp"
 
@@ -97,7 +96,9 @@ int main0() {
 
 int main() {
     GDB::main();
-    OCTFileSystem::main();
-    // DiskFileSystem::main();
+    //OCTVFS::main();
+    //VFS::main();
+
+    return 0;
 }
 /* EOF */

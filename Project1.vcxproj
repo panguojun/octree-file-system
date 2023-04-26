@@ -153,12 +153,11 @@
     <ClInclude Include="DGESDK\DGE.h" />
     <ClInclude Include="DGESDK\DGELit.h" />
     <ClInclude Include="DiskFileSystem.hpp" />
-    <ClInclude Include="filesystembas.hpp" />
+    <ClInclude Include="FileSystemBas.hpp" />
     <ClInclude Include="http_server.hpp" />
-    <ClInclude Include="OCTFileSystem.hpp" />
-    <ClInclude Include="VFileSystem.hpp" />
+    <ClInclude Include="OCTVFS.hpp" />
+    <ClInclude Include="VFS.hpp" />
     <ClInclude Include="GDB.hpp" />
-    <ClInclude Include="scene\scene.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

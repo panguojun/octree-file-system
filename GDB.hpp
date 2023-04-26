@@ -205,6 +205,19 @@ namespace GDB {
 
         table.save("geometry.txt");
 
+        // save to vfs
+        VFS::VirtualFileSystem vfs;
+        
+        vfs.createFolder("/root", "folder1");
+        vfs.createFile("/root/folder1", "file1", "");
+        vfs.createFile("/root/folder1", "file2", "");
+        vfs.createFile("/root/folder1", "file3", "Hello, world!");
+        int cnt = 0;
+        for (auto& geometry : table.geometries_) {
+            vfs.writeFile("/root/folder1/file" + to_string(++cnt), geometry->serialize());
+        }
+        vfs.saveToFile();
+
         GeometryTable table2;
         table2.load("geometry.txt");
         table2.query();

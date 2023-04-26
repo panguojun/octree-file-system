@@ -38,22 +38,19 @@
     <ClInclude Include="DGESDK\DGELit.h">
       <Filter>头文件</Filter>
     </ClInclude>
-    <ClInclude Include="scene\scene.hpp">
-      <Filter>OCTDB</Filter>
-    </ClInclude>
     <ClInclude Include="GDB.hpp">
       <Filter>OCTDB</Filter>
     </ClInclude>
-    <ClInclude Include="VFileSystem.hpp">
+    <ClInclude Include="VFS.hpp">
       <Filter>OCTDB</Filter>
     </ClInclude>
     <ClInclude Include="DiskFileSystem.hpp">
       <Filter>OCTDB</Filter>
     </ClInclude>
-    <ClInclude Include="OCTFileSystem.hpp">
+    <ClInclude Include="OCTVFS.hpp">
       <Filter>OCTDB</Filter>
     </ClInclude>
-    <ClInclude Include="filesystembas.hpp">
+    <ClInclude Include="FileSystemBas.hpp">
       <Filter>OCTDB</Filter>
     </ClInclude>
     <ClInclude Include="http_server.hpp">
