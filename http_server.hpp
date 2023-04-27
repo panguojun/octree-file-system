@@ -9,15 +9,17 @@ void onrequest(const std::string& msg, const std::string& body, std::string& out
 	PRINT("onrequest: " << msg << "\n");
     if (msg == "cmd")
     {
-        // 解析HTTP请求中的body部分，获取draw命令
-        std::string drawCmd;
-        drawCmd = body;
+        PRINTV(body);
+        std::vector<string> spair = STR::split(body, ':');
+        string cmd = spair.front();
+        string param = spair.back();
+        if (cmd == "open")
+        {
+            string content = GDB::vfs.readFile(param);
+            PRINT("readFile: " << content);
 
-        VFS::VirtualFileSystem vfs;
-
-        // 读取文件内容
-        string content = vfs.readFile(drawCmd);
-        cout << content << endl;
+            sendmsg_2d("circle 100,100 100");
+        }
     }
 }
 #endif

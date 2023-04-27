@@ -19,6 +19,7 @@
 #include <iostream >
 #include <set>
 #include <regex>
+#include <thread>
 
 #include <windows.h>
 
@@ -31,6 +32,8 @@
 #define		USIZE			(USIZE0 / EXPORT_SCALE)
 #define		SCREENX		    IMAGESCALE
 #define		SCREENY		    IMAGESCALE
+extern void sendmsg(const std::string& msg);
+extern void sendmsg_2d(const std::string& msg);
 
 #include    "com.hpp"
 using namespace std;
@@ -42,63 +45,41 @@ using namespace std;
 
 #undef      real
 
-#include    "sqlite3/sqlite3.h"
 #include    "filesystembas.hpp"
 #include    "DiskFileSystem.hpp"
 #include    "OCTVFS.hpp"
 #include    "VFS.hpp"
 #include    "GDB.hpp"
+
 #include    "http_server.hpp"
 
-int main0() {
-    sqlite3* db;
-    char* zErrMsg = 0;
-    int rc;
-
-    // 打开数据库文件
-    rc = sqlite3_open("C:/Users/18858/Desktop/example.db", &db);
-
-    if (rc) {
-        std::cerr << "Can't open database: " << sqlite3_errmsg(db) << std::endl;
-        sqlite3_close(db);
-        return 1;
-    }
-
-    sqlite3_stmt* stmt;
-    const char* sql = "SELECT * FROM t_plat_scene_node";
-
-    // 编译SQL语句
-    rc = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
-    if (rc != SQLITE_OK) {
-        std::cerr << "SQL error: " << sqlite3_errmsg(db) << std::endl;
-        sqlite3_close(db);
-        return 1;
-    }
-
-    // 执行查询语句
-    while (sqlite3_step(stmt) == SQLITE_ROW) {
-        // 获取每一行的数据
-        int id = sqlite3_column_int(stmt, 0);
-        const char* name = reinterpret_cast<const char*>(sqlite3_column_text(stmt, 1));
-        double value = sqlite3_column_double(stmt, 2);
-
-        // 打印每一行的数据
-        std::cout << "ID: " << id << ", Name: " << name << ", Value: " << value << std::endl;
-    }
-
-    // 释放资源
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-
-    return 0;
-}
 
 int main() {
+    PRINT("######### start http-server: 127.0.0.1:8081 #########");
+    std::thread serverthread = std::thread{ servermain, 100 };
+
+    STARTUPINFO si;
+    PROCESS_INFORMATION pi;
+    ZeroMemory(&si, sizeof(si));
+    si.cb = sizeof(si);
+    ZeroMemory(&pi, sizeof(pi));
+    if (!CreateProcess(L"C:\\Users\\18858\\Documents\\_LAB\\ZEXE\\vis.exe", NULL, NULL, NULL, FALSE, 0, NULL, NULL, &si, &pi)) {
+        std::cerr << "CreateProcess failed: " << GetLastError() << std::endl;
+        return 1;
+    }
+    Sleep(1000);
+
+    sendmsg("clear");
+    sendmsg("rect 350, 680, 550, 50");
     GDB::main();
+
     //OCTVFS::main();
     //VFS::main();
 
+    getchar();
+
+    CloseHandle(pi.hProcess);   
+    CloseHandle(pi.hThread);
     return 0;
 }
 /* EOF */

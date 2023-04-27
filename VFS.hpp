@@ -1,27 +1,27 @@
-/**                         ã€VFSã€‘
-*               è™šæ‹Ÿæ–‡ä»¶ç³»ç»Ÿï¼ˆVirtual File Systemï¼ŒVFSï¼‰
+/**                         ¡¾VFS¡¿
+*               ĞéÄâÎÄ¼şÏµÍ³£¨Virtual File System£¬VFS£©
 */
 namespace VFS 
 {
     struct VirtualFileSystem 
     {
         struct File {
-            string name; // æ–‡ä»¶å
-            string content; // æ–‡ä»¶å†…å®¹
+            string name; // ÎÄ¼şÃû
+            string content; // ÎÄ¼şÄÚÈİ
         };
 
         struct Folder {
-            string name; // æ–‡ä»¶å¤¹å
-            vector<File> files; // å­æ–‡ä»¶
-            vector<Folder> children; // å­æ–‡ä»¶å¤¹
+            string name; // ÎÄ¼ş¼ĞÃû
+            vector<File> files; // ×ÓÎÄ¼ş
+            vector<Folder> children; // ×ÓÎÄ¼ş¼Ğ
         };
 
-        Folder root; // æ ¹æ–‡ä»¶å¤¹
-        string filePath = "VFS.raw"; // ç£ç›˜æ–‡ä»¶è·¯å¾„
-        fstream fs; // æ–‡ä»¶æµå¯¹è±¡
+        Folder root; // ¸ùÎÄ¼ş¼Ğ
+        string filePath = "VFS.raw"; // ´ÅÅÌÎÄ¼şÂ·¾¶
+        fstream fs; // ÎÄ¼şÁ÷¶ÔÏó
 
         VirtualFileSystem() {
-            root.name = "root"; // åˆå§‹åŒ–æ ¹æ–‡ä»¶å¤¹
+            root.name = "root"; // ³õÊ¼»¯¸ùÎÄ¼ş¼Ğ
         }
         VirtualFileSystem(string filePath) {
             this->filePath = filePath;
@@ -31,7 +31,7 @@ namespace VFS
         {
             saveToFile();
         }
-        // ä»ç£ç›˜æ–‡ä»¶ä¸­åŠ è½½ç›®å½•æ ‘ä¸æ–‡ä»¶
+        // ´Ó´ÅÅÌÎÄ¼şÖĞ¼ÓÔØÄ¿Â¼Ê÷ÓëÎÄ¼ş
         void loadFromFile() {
             fs.open(filePath, ios::in);
             if (!fs) {
@@ -59,7 +59,7 @@ namespace VFS
             fs.close();
         }
 
-        // å°†ç›®å½•æ ‘ä¸æ–‡ä»¶ä¿å­˜åˆ°ç£ç›˜æ–‡ä»¶ä¸­
+        // ½«Ä¿Â¼Ê÷ÓëÎÄ¼ş±£´æµ½´ÅÅÌÎÄ¼şÖĞ
         void saveToFile() {
             fs.open(filePath, ios::out);
             if (!fs) {
@@ -78,8 +78,8 @@ namespace VFS
             }
             fs.close();
         }
-
-        // æ ¹æ®è·¯å¾„è·å–æ–‡ä»¶æˆ–æ–‡ä»¶å¤¹èŠ‚ç‚¹
+       
+        // ¸ù¾İÂ·¾¶»ñÈ¡ÎÄ¼ş»òÎÄ¼ş¼Ğ½Úµã
         void getNode(string path, Folder** folder, File** file) {
             vector<string> paths = splitPath(path);
             Folder* current = &root;
@@ -116,7 +116,7 @@ namespace VFS
             //throw "Node not found";
         }
 
-        // åˆ›å»ºæ–‡ä»¶å¤¹
+        // ´´½¨ÎÄ¼ş¼Ğ
         void createFolder(string path, string name) {
             Folder* folder = 0;
             File* file = 0;
@@ -134,7 +134,7 @@ namespace VFS
             }
         }
 
-        // åˆ›å»ºæ–‡ä»¶
+        // ´´½¨ÎÄ¼ş
         void createFile(string path, string name, string content) {
             Folder* folder = 0;
             File* file = 0;
@@ -153,17 +153,18 @@ namespace VFS
             }
         }
 
-        // è¯»å–æ–‡ä»¶å†…å®¹
+        // ¶ÁÈ¡ÎÄ¼şÄÚÈİ
         string readFile(string path) {
             Folder* folder = 0;
             File* file = 0;
             getNode(path, &folder, &file);
             if (!file)
                 return "";
+            PRINTV(file->content)
             return file->content;
         }
 
-        // å†™å…¥æ–‡ä»¶å†…å®¹
+        // Ğ´ÈëÎÄ¼şÄÚÈİ
         void writeFile(string path, string content) {
             Folder* folder = 0;
             File* file = 0;
@@ -175,7 +176,7 @@ namespace VFS
             }
         }
 
-        // åˆ é™¤æ–‡ä»¶å¤¹
+        // É¾³ıÎÄ¼ş¼Ğ
         void deleteFolder(string path) {
             vector<string> paths = splitPath(path);
             Folder current = root;
@@ -203,7 +204,7 @@ namespace VFS
             PRINT("Folder not found");
         }
 
-        // åˆ é™¤æ–‡ä»¶
+        // É¾³ıÎÄ¼ş
         void deleteFile(string path) {
             Folder* folder = 0;
             File* file = 0;
@@ -219,7 +220,7 @@ namespace VFS
             PRINT("File not found");
         }
 
-        // å°†è·¯å¾„æ‹†åˆ†ä¸ºæ–‡ä»¶å¤¹åå’Œæ–‡ä»¶å
+        // ½«Â·¾¶²ğ·ÖÎªÎÄ¼ş¼ĞÃûºÍÎÄ¼şÃû
         vector<string> splitPath(string path) {
             vector<string> paths;
             int pos = 0;
@@ -236,7 +237,7 @@ namespace VFS
         }
           
 
-        // ä»æ–‡ä»¶æµä¸­è¯»å–ä¸€ä¸ªæ–‡ä»¶å¤¹èŠ‚ç‚¹
+        // ´ÓÎÄ¼şÁ÷ÖĞ¶ÁÈ¡Ò»¸öÎÄ¼ş¼Ğ½Úµã
         void readFolderNode(Folder& folder) {
             getline(fs, folder.name);
             int filesSize;
@@ -258,7 +259,7 @@ namespace VFS
             }
         }
 
-        // å°†ä¸€ä¸ªæ–‡ä»¶å¤¹èŠ‚ç‚¹å†™å…¥æ–‡ä»¶æµä¸­
+        // ½«Ò»¸öÎÄ¼ş¼Ğ½ÚµãĞ´ÈëÎÄ¼şÁ÷ÖĞ
         void writeFolderNode(Folder& folder) {
             fs << folder.name << endl;
             fs << folder.files.size() << endl;
@@ -272,28 +273,42 @@ namespace VFS
             }
         }
 
+        void show(Folder& folder, string fullpath = "") {
+            sendmsg("btn folder:" + folder.name);
+            for (int i = 0; i < folder.files.size(); i++) {
+                sendmsg("btn file:" + folder.files[i].name + " net " + "open:" + fullpath + "/" + folder.name + "/" + folder.files[i].name);
+            }
+            for (int i = 0; i < folder.children.size(); i++) {
+                show(folder.children[i], fullpath + "/" + folder.name);
+            }
+        }
     };
-    int main() 
-    {
-        // åˆ›å»ºæ–‡ä»¶å¤¹å’Œæ–‡ä»¶
-        vfs.createFolder("/root", "folder1");
-        vfs.createFile("/root/folder1", "file1", "Hello, world!");
+    //int main() {
+    //    VirtualFileSystem vfs("VFS.raw");
+    //    throw;
+    //    return 0;
 
-        // è¯»å–æ–‡ä»¶å†…å®¹
-        string content = vfs.readFile("/root/folder1/file1");
-        cout << content << endl;
+    //    // ´´½¨ÎÄ¼ş¼ĞºÍÎÄ¼ş
+    //    vfs.createFolder("/root", "folder1");
+    //    vfs.createFile("/root/folder1", "file1", "Hello, world!");
 
-        // å†™å…¥æ–‡ä»¶å†…å®¹
-        vfs.writeFile("/root/folder1/file1", "Hello, C++!");
-        content = vfs.readFile("/root/folder1/file1");
-        cout << content << endl;
+    //    // ¶ÁÈ¡ÎÄ¼şÄÚÈİ
+    //    string content = vfs.readFile("/root/folder1/file1");
+    //    cout << content << endl;
 
-        // åˆ é™¤æ–‡ä»¶
-        vfs.deleteFile("/root/folder1/file1");
+    //    vfs.show(vfs.root);
 
-        // åˆ é™¤æ–‡ä»¶å¤¹
-        vfs.deleteFolder("/root/folder1");
+    //    // Ğ´ÈëÎÄ¼şÄÚÈİ
+    //    //vfs.writeFile("/root/folder1/file1", "Hello, C++!");
+    //    //content = vfs.readFile("/root/folder1/file1");
+    //    //cout << content << endl;
 
-        return 0;
-    }
+    //    // É¾³ıÎÄ¼ş
+    //    //vfs.deleteFile("/root/folder1/file1");
+
+    //    // É¾³ıÎÄ¼ş¼Ğ
+    //    //vfs.deleteFolder("/root/folder1");
+
+    //    return 0;
+   // }
 }

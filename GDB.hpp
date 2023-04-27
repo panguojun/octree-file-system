@@ -20,7 +20,7 @@ namespace GDB {
         double area() const override { return 0; }
         double volume() const override { return 0; }
         string serialize() const override {
-            return "Point " + to_string(x_) + " " + to_string(y_) + " " + to_string(z_);
+            return "point " + to_string(x_) + " " + to_string(y_) + " " + to_string(z_);
         }
         static shared_ptr<Point> deserialize(const string& s) {
             double x, y, z;
@@ -179,6 +179,7 @@ namespace GDB {
         return nullptr;
     }
 
+    VFS::VirtualFileSystem vfs;
     int main() {
         shared_ptr<Point> p1 = make_shared<Point>(0, 0, 0);
         shared_ptr<Point> p2 = make_shared<Point>(1, 0, 0);
@@ -206,7 +207,7 @@ namespace GDB {
         table.save("geometry.txt");
 
         // save to vfs
-        VFS::VirtualFileSystem vfs;
+        //VFS::VirtualFileSystem vfs;
         
         vfs.createFolder("/root", "folder1");
         vfs.createFile("/root/folder1", "file1", "");
@@ -216,6 +217,9 @@ namespace GDB {
         for (auto& geometry : table.geometries_) {
             vfs.writeFile("/root/folder1/file" + to_string(++cnt), geometry->serialize());
         }
+
+        vfs.show(vfs.root);
+
         vfs.saveToFile();
 
         GeometryTable table2;
