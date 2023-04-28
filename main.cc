@@ -50,6 +50,7 @@ using namespace std;
 #include    "OCTVFS.hpp"
 #include    "VFS.hpp"
 #include    "GDB.hpp"
+#include    "GDB2d.hpp"
 
 #include    "http_server.hpp"
 
@@ -71,7 +72,8 @@ int main() {
 
     sendmsg("clear");
     sendmsg("rect 350, 680, 550, 50");
-    GDB::main();
+    sendmsg_2d("loc 500, 500");
+    GDB2d::main();
 
     //OCTVFS::main();
     //VFS::main();

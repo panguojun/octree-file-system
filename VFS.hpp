@@ -1,5 +1,6 @@
 /**                         【VFS】
 *               虚拟文件系统（Virtual File System，VFS）
+*                   TODO 部分读文件功能！
 */
 namespace VFS 
 {
@@ -33,6 +34,7 @@ namespace VFS
         }
         // 从磁盘文件中加载目录树与文件
         void loadFromFile() {
+            clear();
             fs.open(filePath, ios::in);
             if (!fs) {
                 PRINT("Cannot open file: " << filePath);
@@ -276,11 +278,15 @@ namespace VFS
         void show(Folder& folder, string fullpath = "") {
             sendmsg("btn folder:" + folder.name);
             for (int i = 0; i < folder.files.size(); i++) {
-                sendmsg("btn file:" + folder.files[i].name + " net " + "open:" + fullpath + "/" + folder.name + "/" + folder.files[i].name);
+                sendmsg("btn shape:" + folder.files[i].name + " net " + "open:" + fullpath + "/" + folder.name + "/" + folder.files[i].name);
             }
             for (int i = 0; i < folder.children.size(); i++) {
                 show(folder.children[i], fullpath + "/" + folder.name);
             }
+        }
+        void clear() {
+            root.children.clear();
+            root.files.clear();
         }
     };
     //int main() {

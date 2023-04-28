@@ -20,7 +20,8 @@ namespace GDB {
         double area() const override { return 0; }
         double volume() const override { return 0; }
         string serialize() const override {
-            return "point " + to_string(x_) + " " + to_string(y_) + " " + to_string(z_);
+           // return "point " + to_string(x_) + " " + to_string(y_) + " " + to_string(z_);
+            return "circle " + to_string(x_) + "," + to_string(y_) + " 8";
         }
         static shared_ptr<Point> deserialize(const string& s) {
             double x, y, z;
@@ -39,7 +40,8 @@ namespace GDB {
         double area() const override { return 0; }
         double volume() const override { return 0; }
         string serialize() const override {
-            return "Line " + p1_->serialize() + " " + p2_->serialize();
+           // return "Line " + p1_->serialize() + " " + p2_->serialize();
+            return "line " + to_string(int(p1_->x_ * 500)) + "," + to_string(int(p1_->y_ * 500)) + " " + to_string(int(p2_->x_ * 500)) + " " + to_string(int(p2_->y_*500));
         }
         static shared_ptr<Line> deserialize(const string& s) {
             auto tokens = STR::split(s, ' ');
@@ -204,7 +206,7 @@ namespace GDB {
 
         table.query();
 
-        table.save("geometry.txt");
+        //table.save("geometry.txt");
 
         // save to vfs
         //VFS::VirtualFileSystem vfs;
@@ -220,11 +222,11 @@ namespace GDB {
 
         vfs.show(vfs.root);
 
-        vfs.saveToFile();
+       /* vfs.saveToFile();
 
         GeometryTable table2;
         table2.load("geometry.txt");
-        table2.query();
+        table2.query();*/
 
         return 0;
     }

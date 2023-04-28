@@ -15,10 +15,10 @@ void onrequest(const std::string& msg, const std::string& body, std::string& out
         string param = spair.back();
         if (cmd == "open")
         {
-            string content = GDB::vfs.readFile(param);
+            string content = GDB2d::vfs.readFile(param);
             PRINT("readFile: " << content);
 
-            sendmsg_2d("circle 100,100 100");
+            sendmsg_2d(content);
         }
     }
 }
