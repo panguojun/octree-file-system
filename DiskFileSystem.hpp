@@ -1,6 +1,7 @@
 /**                 【磁盘文件系统】
 * 
 */
+#pragma once
 namespace DiskFileSystem 
 {
 #define BLOCK_SIZE 512 // 块大小

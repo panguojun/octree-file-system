@@ -97,6 +97,12 @@ int servermain(int num) {
       onrequest("cmd2d", req.body, response);
       res.set_content(response, "text/plain");
       });
+  svr.Post("/cmd3d", [](const Request& req, Response& res) {
+      std::string response;
+
+      onrequest("cmd3d", req.body, response);
+      res.set_content(response, "text/plain");
+      });
   svr.Post("/ui", [](const Request& req, Response& res) {
       std::string response;
 
@@ -160,6 +166,15 @@ void sendmsg_2d(const std::string& msg)
     // send message
     httplib::Client client("127.0.0.1", 8080);
     client.Post("/cmd2d", msg, "text/plain");
+
+    printf((msg + "\n").c_str());
+}
+
+void sendmsg_3d(const std::string& msg)
+{
+    // send message
+    httplib::Client client("127.0.0.1", 8080);
+    client.Post("/cmd3d", msg, "text/plain");
 
     printf((msg + "\n").c_str());
 }

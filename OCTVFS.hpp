@@ -30,7 +30,7 @@ namespace OCTVFS
         Octree() : root(nullptr) {}
         ~Octree() { if(root) clear(root); }
 
-        OctreeNode* findnode(OctreeNode* oct, const vector3& p, int depth = 0)
+        OctreeNode* findnode(OctreeNode* oct, const vec3& p, int depth = 0)
         {
             for (int ii = 0; ii < 8; ii++)
             {

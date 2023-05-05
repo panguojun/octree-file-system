@@ -91,24 +91,159 @@ namespace GDB {
     // 立方体类
     class Cube : public Geometry {
     public:
-        Cube(const shared_ptr<Point>& corner, double length) : corner_(corner), length_(length) {}
+        Cube(double length) : length_(length) {}
         string type() const override { return "Cube"; }
         double area() const override { return 6 * length_ * length_; }
         double volume() const override { return length_ * length_ * length_; }
         string serialize() const override {
-            return "Cube " + corner_->serialize() + " " + to_string(length_);
+            return "Cube " + to_string(length_);
         }
         static shared_ptr<Cube> deserialize(const string& s) {
-            auto tokens = STR::split(s, ' ');
-            auto corner = Point::deserialize(tokens[1]);
-            double length = stod(tokens[2]);
-            return make_shared<Cube>(corner, length);
+            double length = stof(s);
+            return make_shared<Cube>(length);
         }
     public:
         shared_ptr<Point> corner_;
         double length_;
     };
+    // 球类
+    class Sphere : public Geometry {
+    public:
+        Sphere(double radius) : radius_(radius) {}
+        string type() const override { return "Sphere"; }
+        double area() const override { return 4 * PI * radius_ * radius_; }
+        double volume() const override { return (4.0 / 3.0) * PI * radius_ * radius_ * radius_; }
+        string serialize() const override {
+            return "Sphere " + to_string(radius_);
+        }
+        static shared_ptr<Sphere> deserialize(const string& s) {
+            double radius = stof(s);
+            return make_shared<Sphere>(radius);
+        }
+    public:
+        shared_ptr<Point> center_;
+        double radius_;
+    };
 
+    // 圆柱类
+    class Cylinder : public Geometry {
+    public:
+        Cylinder(double radius, double height) : radius_(radius), height_(height) {}
+        string type() const override { return "Cylinder"; }
+        double area() const override { return 2 * PI * radius_ * height_ + 2 * PI * radius_ * radius_; }
+        double volume() const override { return PI * radius_ * radius_ * height_; }
+        string serialize() const override {
+            return "Cylinder " + to_string(radius_) + " " + to_string(height_);
+        }
+        static shared_ptr<Cylinder> deserialize(const string& s) {
+            auto tokens = STR::split(s, ' ');
+            double radius = stod(tokens[1]);
+            double height = stod(tokens[2]);
+            return make_shared<Cylinder>(radius, height);
+        }
+    public:
+        shared_ptr<Point> bottom_center_;
+        double radius_;
+        double height_;
+    };
+
+    // 圆锥类
+    class Cone : public Geometry {
+    public:
+        Cone(double radius, double height) : radius_(radius), height_(height) {}
+        string type() const override { return "Cone"; }
+        double area() const override { return PI * radius_ * (radius_ + sqrt(radius_ * radius_ + height_ * height_)); }
+        double volume() const override { return (1.0 / 3.0) * PI * radius_ * radius_ * height_; }
+        string serialize() const override {
+            return "Cone " + to_string(radius_) + " " + to_string(height_);
+        }
+        static shared_ptr<Cone> deserialize(const string& s) {
+            auto tokens = STR::split(s, ' ');
+            double radius = stod(tokens[1]);
+            double height = stod(tokens[2]);
+            return make_shared<Cone>(radius, height);
+        }
+    public:
+        shared_ptr<Point> bottom_center_;
+        double radius_;
+        double height_;
+    };
+
+    // 圆环类
+    class Torus : public Geometry {
+    public:
+        Torus(double major_radius, double minor_radius) : major_radius_(major_radius), minor_radius_(minor_radius) {}
+        string type() const override { return "Torus"; }
+        double area() const override { return 4 * PI * PI * major_radius_ * minor_radius_; }
+        double volume() const override { return 2 * PI * PI * minor_radius_ * minor_radius_ * major_radius_; }
+        string serialize() const override {
+            return "Torus " + to_string(major_radius_) + " " + to_string(minor_radius_);
+        }
+        static shared_ptr<Torus> deserialize(const string& s) {
+            auto tokens = STR::split(s, ' ');
+            double major_radius = stod(tokens[1]);
+            double minor_radius = stod(tokens[2]);
+            return make_shared<Torus>( major_radius, minor_radius);
+        }
+    public:
+        shared_ptr<Point> center_;
+        double major_radius_;
+        double minor_radius_;
+    };
+
+    // 扇面类
+    class Sector : public Geometry {
+    public:
+        Sector(double radius, double angle) : radius_(radius), angle_(angle) {}
+        string type() const override { return "Sector"; }
+        double area() const override { return 0.5 * radius_ * radius_ * angle_; }
+        double volume() const override { return 0; } // 扇面没有体积
+        string serialize() const override {
+            return "Sector " + to_string(radius_) + " " + to_string(angle_);
+        }
+        static shared_ptr<Sector> deserialize(const string& s) {
+            auto tokens = STR::split(s, ' ');
+            double radius = stod(tokens[1]);
+            double angle = stod(tokens[2]);
+            return make_shared<Sector>( radius, angle);
+        }
+    public:
+        shared_ptr<Point> center_;
+        double radius_;
+        double angle_; // 弧度制
+    };
+
+    // 棱柱类
+    class Prism : public Geometry {
+    public:
+        Prism(const vector<shared_ptr<Point>>& vertices, double height) : vertices_(vertices), height_(height) {}
+        string type() const override { return "Prism"; }
+        double area() const override { return 0; } // 棱柱没有表面积
+        double volume() const override { return height_ * base_area_; }
+        string serialize() const override {
+            string s = "Prism " + to_string(vertices_.size()) + " ";
+            for (auto& vertex : vertices_) {
+                s += vertex->serialize() + " ";
+            }
+            s += to_string(height_);
+            return s;
+        }
+        static shared_ptr<Prism> deserialize(const string& s) {
+            auto tokens = STR::split(s, ' ');
+            int num_vertices = stoi(tokens[1]);
+            vector<shared_ptr<Point>> vertices;
+            for (int i = 2; i < 2 + num_vertices; i++) {
+                vertices.push_back(Point::deserialize(tokens[i]));
+            }
+            double height = stod(tokens[2 + num_vertices]);
+            return make_shared<Prism>(vertices, height);
+        }
+        void set_base_area(double area) { base_area_ = area; }
+    public:
+        vector<shared_ptr<Point>> vertices_;
+        double height_;
+        double base_area_;
+    };
     // 几何体表格类
     class GeometryTable {
     public:
@@ -178,55 +313,64 @@ namespace GDB {
         if (tokens[0] == "Cube") {
             return Cube::deserialize(s);
         }
+        if (tokens[0] == "Cylinder") {
+            return Cylinder::deserialize(s);
+        }
+        if (tokens[0] == "Sphere") {
+            return Sphere::deserialize(s);
+        }
+        if (tokens[0] == "Cone") {
+            return Cone::deserialize(s);
+        }
+        if (tokens[0] == "Torus") {
+            return Torus::deserialize(s);
+        }
+        if (tokens[0] == "Sector") {
+            return Sector::deserialize(s);
+        }
+        if (tokens[0] == "Prism") {
+            return Prism::deserialize(s);
+        }
         return nullptr;
     }
 
     VFS::VirtualFileSystem vfs;
     int main() {
-        shared_ptr<Point> p1 = make_shared<Point>(0, 0, 0);
-        shared_ptr<Point> p2 = make_shared<Point>(1, 0, 0);
-        shared_ptr<Point> p3 = make_shared<Point>(1, 1, 0);
-        shared_ptr<Point> p4 = make_shared<Point>(0, 1, 0);
-        shared_ptr<Point> p5 = make_shared<Point>(0, 0, 1);
-        shared_ptr<Point> p6 = make_shared<Point>(1, 0, 1);
-        shared_ptr<Point> p7 = make_shared<Point>(1, 1, 1);
-        shared_ptr<Point> p8 = make_shared<Point>(0, 1, 1);
-        shared_ptr<Point> p9 = make_shared<Point>(2, 0, 0);
-        shared_ptr<Point> p10 = make_shared<Point>(2, 2, 0);
-        shared_ptr<Point> p11 = make_shared<Point>(0, 2, 0);
+        /*vfs.loadFromFile();
+        vfs.show(vfs.root);
 
-        shared_ptr<Line> line = make_shared<Line>(p1, p2);
-        shared_ptr<Face> face = make_shared<Face>(vector<shared_ptr<Point>>{p1, p2, p3, p4});
-        shared_ptr<Cube> cube = make_shared<Cube>(p1, 1.0);
+        return 0;*/
 
-        GeometryTable table;
-        table.add(line);
-        table.add(face);
-        table.add(cube);
 
-        table.query();
+        vector<shared_ptr<Geometry>> shapes;
+        // 创建不同的几何体
+        shapes.push_back(make_shared<Cylinder>(3, 4));
+        shapes.push_back(make_shared<Cone>( 2, 6));
+        shapes.push_back(make_shared<Torus>(7, 1));
+        shapes.push_back(make_shared<Sector>(1, 1.5));
 
-        //table.save("geometry.txt");
+        for (const auto& shape : shapes) {
+            cout << shape->type() << " area: " << shape->area() << " volume: " << shape->volume() << endl;
+            cout << "Serialized: " << shape->serialize() << endl;
+            auto deserialized = Geometry::deserialize(shape->serialize());
+            if (deserialized) {
+                cout << "Deserialized: " << deserialized->type() << " area: " << deserialized->area() << " volume: " << deserialized->volume() << endl;
+            }
+            else {
+                cout << "Failed to deserialize" << endl;
+            }
+        }
 
-        // save to vfs
-        //VFS::VirtualFileSystem vfs;
-        
         vfs.createFolder("/root", "folder1");
-        vfs.createFile("/root/folder1", "file1", "");
-        vfs.createFile("/root/folder1", "file2", "");
-        vfs.createFile("/root/folder1", "file3", "Hello, world!");
         int cnt = 0;
-        for (auto& geometry : table.geometries_) {
-            vfs.writeFile("/root/folder1/file" + to_string(++cnt), geometry->serialize());
+        for (auto& shape : shapes) {
+            string filename = shape->type() + to_string(++cnt);
+            vfs.createFile("/root/folder1", filename, "");
+            vfs.writeFile("/root/folder1/" + filename, shape->serialize());
         }
 
         vfs.show(vfs.root);
-
-       /* vfs.saveToFile();
-
-        GeometryTable table2;
-        table2.load("geometry.txt");
-        table2.query();*/
+        vfs.saveToFile();
 
         return 0;
     }

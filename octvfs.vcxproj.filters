@@ -5,55 +5,120 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="头文件">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include=".SYS">
+      <UniqueIdentifier>{395f4c33-5c6d-468b-9a29-4f5414c5dc8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="sqlite">
-      <UniqueIdentifier>{37e69463-f828-40c1-b3f5-0089f60d0d39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="OCTDB">
+    <Filter Include="VFS">
       <UniqueIdentifier>{13b63255-24a3-4580-ae1b-5f9333716840}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GDB">
+      <UniqueIdentifier>{cd2b41f6-785a-4e70-a790-91da5a996e51}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GDBSDK">
+      <UniqueIdentifier>{b8e8cd7d-3e60-46ce-88bb-2ce72b529a3e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cc">
       <Filter>源文件</Filter>
     </ClCompile>
-    <ClCompile Include="sqlite3\sqlite3.c">
-      <Filter>sqlite</Filter>
-    </ClCompile>
     <ClCompile Include="server.cc">
-      <Filter>OCTDB</Filter>
+      <Filter>.SYS</Filter>
+    </ClCompile>
+    <ClCompile Include="..\EPM\PMCORE\thirdpart\lua53.c">
+      <Filter>.SYS</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Circle2D.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Cylinder.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Entity.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Geometry.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Geometry2D.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Line2D.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Curve2D.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Solid.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Shape.cpp">
+      <Filter>GDBSDK</Filter>
+    </ClCompile>
+    <ClCompile Include="Serializer.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="DGESDK\Cone.cpp">
+      <Filter>GDBSDK</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="DGESDK\DGE.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
-    <ClInclude Include="DGESDK\DGELit.h">
-      <Filter>头文件</Filter>
-    </ClInclude>
     <ClInclude Include="VFS.hpp">
-      <Filter>OCTDB</Filter>
+      <Filter>VFS</Filter>
     </ClInclude>
     <ClInclude Include="DiskFileSystem.hpp">
-      <Filter>OCTDB</Filter>
+      <Filter>VFS</Filter>
     </ClInclude>
     <ClInclude Include="OCTVFS.hpp">
-      <Filter>OCTDB</Filter>
-    </ClInclude>
-    <ClInclude Include="GDB.hpp">
-      <Filter>源文件</Filter>
+      <Filter>VFS</Filter>
     </ClInclude>
     <ClInclude Include="http_server.hpp">
       <Filter>源文件</Filter>
     </ClInclude>
-    <ClInclude Include="GDB2d.hpp">
-      <Filter>源文件</Filter>
-    </ClInclude>
     <ClInclude Include="FileSystemBas.hpp">
-      <Filter>OCTDB</Filter>
+      <Filter>.SYS</Filter>
+    </ClInclude>
+    <ClInclude Include="GDB.hpp">
+      <Filter>GDB</Filter>
+    </ClInclude>
+    <ClInclude Include="GDB2d.hpp">
+      <Filter>GDB</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Circle2D.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Cylinder.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Entity.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Geometry.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Geometry2D.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Line2D.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\DGE.h">
+      <Filter>.SYS</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Curve2D.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Solid.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Shape.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Object.h">
+      <Filter>GDBSDK</Filter>
+    </ClInclude>
+    <ClInclude Include="DGESDK\Cone.h">
+      <Filter>GDBSDK</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

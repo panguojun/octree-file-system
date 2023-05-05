@@ -124,7 +124,7 @@ namespace GDB2d {
     }
     VFS::VirtualFileSystem vfs;
     int main() {
-      /*  vfs.loadFromFile();
+       /* vfs.loadFromFile();
         vfs.show(vfs.root);
 
         return 0;*/

@@ -24,7 +24,7 @@
     <ProjectGuid>{021c6e50-e3b7-4d7a-944c-ac5e5e339b69}</ProjectGuid>
     <RootNamespace>Project1</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>OCTDB</ProjectName>
+    <ProjectName>GVFS</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
@@ -129,7 +129,7 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG; _SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>NDEBUG;_SILENCE_CXX17_C_HEADER_DEPRECATION_WARNING;_CRT_SECURE_NO_WARNINGS;_SILENCE_CXX17_ITERATOR_BASE_CLASS_DEPRECATION_WARNING;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <AdditionalIncludeDirectories>C:\Users\18858\Documents\_LAB\EPM\PMCORE;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
@@ -140,18 +140,42 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\Users\18858\Desktop\freetype-2.13.0\objs;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>C:\Users\18858\Desktop\freetype-2.13.0\objs;C:\Users\18858\Documents\_LAB\EPM\x64\Release;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;odbc32.lib;odbccp32.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
+    <PostBuildEvent>
+      <Command>xcopy /e /r /y C:\Users\18858\Documents\_LAB\VFS\x64\Release\*.exe C:\Users\18858\Documents\_LAB\ZEXE</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="..\EPM\PMCORE\thirdpart\lua53.c" />
+    <ClCompile Include="DGESDK\Circle2D.cpp" />
+    <ClCompile Include="DGESDK\Cone.cpp" />
+    <ClCompile Include="DGESDK\Curve2D.cpp" />
+    <ClCompile Include="DGESDK\Cylinder.cpp" />
+    <ClCompile Include="DGESDK\Entity.cpp" />
+    <ClCompile Include="DGESDK\Geometry.cpp" />
+    <ClCompile Include="DGESDK\Geometry2D.cpp" />
+    <ClCompile Include="DGESDK\Line2D.cpp" />
+    <ClCompile Include="DGESDK\Shape.cpp" />
+    <ClCompile Include="DGESDK\Solid.cpp" />
     <ClCompile Include="main.cc" />
+    <ClCompile Include="Serializer.cpp" />
     <ClCompile Include="server.cc" />
-    <ClCompile Include="sqlite3\sqlite3.c" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="DGESDK\Circle2D.h" />
+    <ClInclude Include="DGESDK\Cone.h" />
+    <ClInclude Include="DGESDK\Curve2D.h" />
+    <ClInclude Include="DGESDK\Cylinder.h" />
     <ClInclude Include="DGESDK\DGE.h" />
-    <ClInclude Include="DGESDK\DGELit.h" />
+    <ClInclude Include="DGESDK\Entity.h" />
+    <ClInclude Include="DGESDK\Geometry.h" />
+    <ClInclude Include="DGESDK\Geometry2D.h" />
+    <ClInclude Include="DGESDK\Line2D.h" />
+    <ClInclude Include="DGESDK\Object.h" />
+    <ClInclude Include="DGESDK\Shape.h" />
+    <ClInclude Include="DGESDK\Solid.h" />
     <ClInclude Include="DiskFileSystem.hpp" />
     <ClInclude Include="FileSystemBas.hpp" />
     <ClInclude Include="GDB2d.hpp" />

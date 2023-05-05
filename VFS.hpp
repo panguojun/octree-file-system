@@ -154,7 +154,15 @@ namespace VFS
                 folder->files.push_back(newFile);
             }
         }
-
+        // 是否是文件夹
+        Folder* getFolder(string path) {
+            Folder* folder = 0;
+            File* file = 0;
+            getNode(path, &folder, &file);
+            if (!file && folder)
+                return folder;
+            return 0;
+        }
         // 读取文件内容
         string readFile(string path) {
             Folder* folder = 0;
@@ -274,14 +282,16 @@ namespace VFS
                 writeFolderNode(folder.children[i]);
             }
         }
-
         void show(Folder& folder, string fullpath = "") {
-            sendmsg("btn folder:" + folder.name);
+            sendmsg("clear");
+            if(folder.name != "root")
+                sendmsg("btn folder:root net open:root");
+            sendmsg("btn folder:" + folder.name + " net " + "open:" + fullpath + "/" + folder.name);
             for (int i = 0; i < folder.files.size(); i++) {
                 sendmsg("btn shape:" + folder.files[i].name + " net " + "open:" + fullpath + "/" + folder.name + "/" + folder.files[i].name);
             }
             for (int i = 0; i < folder.children.size(); i++) {
-                show(folder.children[i], fullpath + "/" + folder.name);
+                sendmsg("btn folder:" + folder.children[i].name + " net " + "open:" + fullpath + "/" + folder.name + "/" + folder.children[i].name);
             }
         }
         void clear() {
